@@ -89,6 +89,36 @@ uint8_t readBlocking()
 }
 
 #define BAUD_RATE 115200
+typedef struct {
+	union {
+		struct {
+			union { /* Clock Select */
+				struct {
+					uint8_t CS10: 1;
+					uint8_t CS11: 1;
+					uint8_t CS12: 1;
+				};
+				struct {
+					uint8_t CSx: 3;
+				};
+			};
+			union { /* Waveform Generation Mode */
+				struct {
+					uint8_t WGM12: 1;
+					uint8_t WGM13: 1;
+				};
+				struct {
+					uint8_t WGMx: 3;
+				};
+			};
+			uint8_t : 1; /* Reserved Bit */
+			uint8_t ICES1: 1; /* Input Capture Edge Select */
+			uint8_t ICNC1: 1; /* Input Capture Noise Canceler */
+		};
+		uint8_t tccr1b;
+	};
+} TCCR1B_t;
+
 void setup()
 {
     Serial.begin(BAUD_RATE);
